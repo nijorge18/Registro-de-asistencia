@@ -1,6 +1,6 @@
 import { createRouter, createWebHistory } from 'vue-router'
 
-export const routes = [
+ const routes = [
   {
     path: '/',
     name: 'Login',
@@ -11,7 +11,14 @@ export const routes = [
     name: 'Asistencia',
     component: () => import('../views/asistencia/controlAsis.vue'),
   },
+
+   {
+    path: '/admin',
+    name: 'Admin',
+    component: () => import('../views/asistencia/panelAdmin.vue'),
+  },
 ]
+
 const router = createRouter({
   history: createWebHistory(),
   routes,

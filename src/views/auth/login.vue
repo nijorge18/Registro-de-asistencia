@@ -1,5 +1,6 @@
 <template>
-  <form class="row flex-center flex" @submit.prevent="handleLogin">
+  <BContainer class="bv-example-row">
+    <form class="row flex-center flex" @submit.prevent="handleLogin">
     <div class="col-6 form-widget">
       <h1 class="header">Control de asistencia</h1>
       <p class="description">Ingresa con tus credenciales de la empresa</p>
@@ -19,12 +20,14 @@
       </div>
     </div>
   </form>
+  </BContainer>
+  
 </template>
 <script setup lang="ts">
 import { ref } from 'vue'
 import { supabase } from '../../../utils/supabaseClient'
 import { useRouter } from 'vue-router'
-
+import { BContainer } from 'bootstrap-vue-next'
 const router = useRouter()
 const loading = ref(false)
 const email = ref('')
@@ -38,7 +41,7 @@ const handleLogin = async () => {
     })
     
     if (error) throw error
-    router.push('/asistencia')
+    router.push('/admin')
     alert('Inicio exitoso')
   } catch (error) {
     if (error instanceof Error) {
