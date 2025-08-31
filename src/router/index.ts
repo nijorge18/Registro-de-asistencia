@@ -1,4 +1,4 @@
-
+import { createRouter, createWebHistory } from 'vue-router'
 
 export const routes = [
   {
@@ -12,4 +12,8 @@ export const routes = [
     component: () => import('../views/asistencia/controlAsis.vue'),
   },
 ]
-
+const router = createRouter({
+  history: createWebHistory(),
+  routes,
+})
+export default router

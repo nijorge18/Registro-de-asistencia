@@ -1,19 +1,10 @@
 
 
 <template>
-  
-    <login/>
-
-  
+  <router-view/>
 </template>
 
 <script setup >
-import ControlAsis from './components/controlAsis.vue';
-
-import login from '/src/components/login.vue';
-
-
-
 </script>
 
 <style scoped>
