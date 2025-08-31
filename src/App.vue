@@ -1,13 +1,15 @@
 
 
 <template>
-  <div>
-    <login />
+  
+    <login/>
 
-  </div>
+  
 </template>
 
 <script setup >
+import ControlAsis from './components/controlAsis.vue';
+
 import login from '/src/components/login.vue';
 
 
