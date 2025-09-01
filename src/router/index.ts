@@ -9,13 +9,13 @@ import { createRouter, createWebHistory } from 'vue-router'
   {
     path: '/asistencia',
     name: 'Asistencia',
-    component: () => import('../views/asistencia/controlAsis.vue'),
+    component: () => import('../views/empleado/controlAsis.vue'),
   },
 
    {
     path: '/admin',
     name: 'Admin',
-    component: () => import('../views/asistencia/panelAdmin.vue'),
+    component: () => import('../views/admin/panelAdmin.vue'),
   },
 ]
 
