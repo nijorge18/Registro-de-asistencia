@@ -3,24 +3,27 @@ import { type Database } from '../entities/supabase'
 
 
 type Users = Database['public']['Tables']['Users']['Row']
-type UsersInsert = Database['public']['Tables']['Users']['Insert']
 type UsersUpdate = Database['public']['Tables']['Users']['Update']
 
 
-export default class UserService {
+export  class UserService {
 
 
-    public async getAll(): Promise<Users[]> {
+   static async crearUsuario(userId: string, email: string, nombre: string) {
+  const { data, error } = await supabase
+    .from('Users') 
+    .insert({
+      id_usuario: userId,        
+      correo_usuario: email,    
+      nombre_usuario: nombre,
+      rol_usuario: 'Empleado'   
+    })
+    .select()
+    .single()
 
-        const { data, error } = await supabase
-            .from('Users')
-            .select('*')
-
-            
-        if (error) throw new Error(`Error al obtener los usuarios: ${error.message}`)
-        return data as Users[]
-    }
-
+  if (error) throw error
+  return data
+}
     public async getById(id_usuario: string): Promise<Users| null> {
         const { data, error } = await supabase
             .from('Users')
@@ -32,17 +35,7 @@ export default class UserService {
         return data as Users
     }
 
-    public async create(User: UsersInsert): Promise<Users> {
-        const { data, error } = await supabase
-            .from('Users')
-            .insert(User)
-            .select()
-            .single()
 
-        if (error) throw new Error(`Error al intentar crear usuario: ${error.message}`)
-        return data as Users
-
-    }
 
     public async update(Users: UsersUpdate): Promise<Users> {
         const { data, error } = await supabase

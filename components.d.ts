@@ -12,6 +12,8 @@ declare module 'vue' {
     BCard: typeof import('bootstrap-vue-next/components/BCard')['BCard']
     BCol: typeof import('bootstrap-vue-next/components/BContainer')['BCol']
     BContainer: typeof import('bootstrap-vue-next/components/BContainer')['BContainer']
+    BListGroup: typeof import('bootstrap-vue-next/components/BListGroup')['BListGroup']
+    BListGroupItem: typeof import('bootstrap-vue-next/components/BListGroup')['BListGroupItem']
     BRow: typeof import('bootstrap-vue-next/components/BContainer')['BRow']
     RouterLink: typeof import('vue-router')['RouterLink']
     RouterView: typeof import('vue-router')['RouterView']

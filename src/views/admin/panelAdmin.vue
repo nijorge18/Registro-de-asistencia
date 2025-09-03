@@ -15,6 +15,17 @@
             <BButton variant="danger">Eliminar usuario</BButton>
           </BCol>
 
+          <BCard>
+            <BListGroup>
+              <BListGroupItem>Cras justo odio</BListGroupItem>
+              <BListGroupItem>Dapibus ac facilisis in</BListGroupItem>
+              <BListGroupItem>Dapibus ac facilisis in</BListGroupItem>
+              <BListGroupItem>Morbi leo risus</BListGroupItem>
+              <BListGroupItem>Porta ac consectetur ac</BListGroupItem>
+              <BListGroupItem>Vestibulum at eros</BListGroupItem>
+            </BListGroup>
+          </BCard>
+
 
         </BRow>
       </BCard>
@@ -24,5 +35,10 @@
 
 </template>
 <script setup lang="ts">
+import type { Database } from '../../entities/supabase';
+
+import { onMounted, ref } from 'vue'
+
+
 
 </script>

@@ -17,6 +17,12 @@ import { createRouter, createWebHistory } from 'vue-router'
     name: 'Admin',
     component: () => import('../views/admin/panelAdmin.vue'),
   },
+     {
+    path: '/admin/gestionarUsuarios',
+    name: 'Admin - Gestionar Usuarios',
+    component: () => import('../views/admin/gestionarUsuarios.vue'),
+  },
+  
 ]
 
 const router = createRouter({
