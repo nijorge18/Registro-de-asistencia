@@ -20,16 +20,17 @@ export default class AsistenciaService {
         return data as Asistencia[]
     }
 
-    public async getById(id_asistencia: string): Promise<Asistencia| null> {
-        const { data, error } = await supabase
-            .from('Asistencia')
-            .select('*')
-            .eq('id_asistencia', id_asistencia)
-            .single()
+  public async getAsisByUsuario(id_usuario: string, fecha: string): Promise<Asistencia | null> {
+  const { data, error } = await supabase
+    .from('Asistencia')
+    .select('*')
+    .eq('id_usuario', id_usuario)
+    .eq('fecha', fecha)
+    .single();
 
-        if (error) throw new Error(`Error al obtener la asistencia: ${error.message}`)
-        return data as Asistencia
-    }
+  if (error) throw new Error(`Error al obtener asistencia del usuario: ${error.message}`);
+  return data as Asistencia;
+}
 
     public async create(asistencia: AsistenciaInsert): Promise<Asistencia> {
         const { data, error } = await supabase
