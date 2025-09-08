@@ -14,16 +14,15 @@
         </BCol>
       
       </BRow>
-        
     </div>
- 
  </BContainer>
 </template>
 
 
 <script setup lang="ts">
+
+
 import AsistenciaService from '../../services/AsistenciaService';
-import { UserService } from '../../services/UserService';
 import type { Database } from '../../entities/supabase';
 import { supabase } from '../../../utils/supabaseClient';
 import { onMounted, ref } from 'vue';
@@ -31,11 +30,7 @@ import reloj from './components/reloj.vue';
 
 
 
-
-
-type Asistencia = Database['public']['Tables']['Asistencia']['Row']
 type AsistenciaInsert = Database['public']['Tables']['Asistencia']['Insert']
-type AsistenciaUpdate = Database['public']['Tables']['Asistencia']['Update']
 
 const asistenciaService = new AsistenciaService();
 const userId = ref<string | null>(null);
@@ -45,8 +40,23 @@ onMounted(async () => {
   const { data } = await supabase.auth.getUser();
   userId.value = data?.user?.id ?? null;
 });
+
+
+
 const marcarAsistencia = async () => {
   try {
+    if (!userId.value) {
+      alert('No se pudo obtener el ID del usuario');
+      return;
+    }
+    const fechaHoy = new Date().toISOString().split('T')[0];
+    const yaHayAsistencia = await asistenciaService.getAsisByUsuario(userId.value, fechaHoy);
+
+    if (yaHayAsistencia) {
+      alert('Ya has marcado tu asistencia para hoy');
+      return;
+    }
+
     const nuevaAsistencia: AsistenciaInsert = {
       id_usuario: userId.value!, 
       fecha: new Date().toISOString().split('T')[0], // Fecha actual en formato YYYY-MM-DD
@@ -61,6 +71,8 @@ const marcarAsistencia = async () => {
     alert('Error al marcar asistencia');
   }
 };
+
+
 const marcarSalida = async () => {
   try {
     if (!userId.value) {
@@ -69,45 +81,28 @@ const marcarSalida = async () => {
     }
 
     const fechaHoy = new Date().toISOString().split('T')[0];
+    const asistencia = await asistenciaService.getAsisByUsuario(userId.value, fechaHoy);
 
-  
-    const { data: asistencia, error } = await supabase
-      .from('Asistencia')
-      .select('id')
-      .eq('id_usuario', userId.value)
-      .eq('fecha', fechaHoy)
-      .single();
-
-    if (error || !asistencia) {
+    if (!asistencia) {
       alert('No se encontró asistencia para hoy');
-      return; 
-    }
-
-
-  
-    const horaSalida = new Date().toISOString().split('T')[1].split('.')[0];
-
-    const { error: updateError } = await supabase
-      .from('Asistencia')
-      .update({ hora_salida: horaSalida })
-      .eq('id', asistencia.id);
-
-    if (updateError) {
-      alert('Error al marcar salida');
       return;
     }
 
+    if (asistencia.hora_salida) {
+      alert('Ya has marcado tu salida para hoy');
+      return;
+    }
+
+    await asistenciaService.marcarSalida(asistencia.id_asistencia);
+
     alert('Salida marcada correctamente');
-  } catch (error) {
+  } catch (error: any) {
     console.error('Error al marcar salida:', error);
-    alert('Error inesperado al marcar salida');
+    alert(`Error al marcar salida: ${error.message || error}`);
   }
 };
 
 </script>
-
-
-
 
 
 <style >
@@ -115,7 +110,7 @@ const marcarSalida = async () => {
 body {
   margin: 0;
   padding: 0;
-  background-color: #ff00bf; 
+  background-color: #1c2430; 
 
 }
 </style>
