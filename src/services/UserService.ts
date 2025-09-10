@@ -7,6 +7,14 @@ type UsersUpdate = Database['public']['Tables']['Users']['Update']
 
 
 export  class UserService {
+      public async getAll(): Promise<Users[]> {
+    const { data, error } = await supabase
+      .from('Users')
+      .select('*')
+
+    if (error) throw new Error(`Error al obtener los usuarios: ${error.message}`)
+    return data as Users[]
+  }
 
 
    static async crearUsuario(userId: string, email: string, nombre: string) {
@@ -53,7 +61,7 @@ export  class UserService {
         const { error } = await supabase
             .from('Users')
             .delete()
-            .eq('id_Users', id)
+            .eq('id_usuario', id)
 
         if (error) throw new Error(`Error al elimina el usuario: ${error.message}`)
         return true
