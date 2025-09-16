@@ -64,7 +64,7 @@ const handleLogin = async () => {
     if (error) throw error
 
     alert('Inicio exitoso')
-    router.push('/admin')
+    router.push('/asistencia')
   } catch (error) {
     if (error instanceof Error) {
       alert(error.message)

@@ -1,5 +1,5 @@
 <template>
-  <BModal ref="modal" :id="modalId" title="Eliminar Usuario" @ok="confirmDelete">
+  <BModal ref="modal" :id="modalId" title="Eliminar Usuario" @ok="confirmDelete" ok-variant="danger" ok-title="Eliminar" cancel-title="Cancelar">
     <p>
       ¿Estás seguro de eliminar al usuario 
       <strong>{{ user?.nombre_usuario }}</strong>?
