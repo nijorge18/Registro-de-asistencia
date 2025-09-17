@@ -37,14 +37,17 @@ import AsistenciaService from '../../services/AsistenciaService';
 import { AuthService } from '../../services/AuthService';
 import reloj from './components/reloj.vue';
 import Logout from '../auth/logout.vue';
+import { useStore } from '../../store/storeUsers';
 
-
+const store = useStore();
 const currentUser = ref<{ id_usuario: string; nombre_usuario: string; rol_usuario: string } | null>(null);
 const asistenciaService = new AsistenciaService();
 const botonAsistencia = ref(true); // true = marcar asistencia, false = marcar salida
 
 onMounted(async () => {
   currentUser.value = await AuthService.getCurrentUser();
+  await store.fetchUser();
+
 
   if (!currentUser.value) {
     console.log('No hay usuario logueado');

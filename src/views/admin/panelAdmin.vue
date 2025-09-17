@@ -33,7 +33,7 @@
           <BListGroup>
             <BListGroupItem v-for="user in users" :key="user.id_usuario"
               class="d-flex justify-content-between align-items-center">
-              <div>{{ user.nombre_usuario }} - ({{ user.rol_usuario }})</div>
+              <div>{{ user.nombre_usuario }} - {{ user.correo_usuario }} ({{ user.rol_usuario }})</div>
               <div class="d-flex gap-2">
                 <BButton size="sm" variant="warning" @click="editUser(user)">Modificar</BButton>
                 <BButton size="sm" variant="danger" @click="deleteUser(user)">Eliminar</BButton>

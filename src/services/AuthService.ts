@@ -1,5 +1,7 @@
 import { supabase } from '../../utils/supabaseClient'
 import { UserService } from './UserService';
+import { useStore } from '../store/storeUsers';
+
 
 export class AuthService {
 
@@ -11,7 +13,8 @@ export class AuthService {
     const { data, error } = await supabase.auth.admin.createUser({
       email,
       password,
-      email_confirm: true
+      email_confirm: true,
+      role: metadata.rol,
     })
 
     if (error) throw new Error(`Error creando usuario auth: ${error.message}`)
@@ -56,5 +59,16 @@ export class AuthService {
     if (error) throw new Error(`Error cerrando sesión: ${error.message}`)
     return true
   }
+
+  static async initUserSession() {
+  const store = useStore();
+  const userData = await AuthService.getCurrentUser();
+  if (userData) {
+    store.currentUser = userData;
+  } else {
+    store.logout();
+  }
+}
+
 
 }

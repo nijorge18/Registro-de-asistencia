@@ -1,5 +1,5 @@
 import { createRouter, createWebHistory } from 'vue-router'
-import { AuthService } from '../services/AuthService';
+import { useStore } from '../store/storeUsers';
 
 const routes = [
   {
@@ -11,30 +11,32 @@ const routes = [
     path: '/asistencia',
     name: 'Asistencia',
     component: () => import('../views/empleado/controlAsis.vue'),
+    meta: { requiresAuth: true },
+
   },
   {
     path: '/admin',
     name: 'Admin',
     component: () => import('../views/admin/panelAdmin.vue'),
-    meta: { role: 'Admin' },
+    meta: { requiresAuth: true, role: 'Admin' },
   },
   {
     path: '/admin/crearUsuario',
     name: 'Admin - Gestionar Usuarios',
     component: () => import('../views/admin/components/crearUsuario.vue'),
-    meta: { role: 'Admin' },
+    meta: { requiresAuth: true, role: 'Admin' },
   },
   {
     path: '/reporteAtrasos',
     name: 'Admin - Reporte de Atrasos',
     component: () => import('../views/admin/components/reporteAtraso.vue'),
-    meta: { role: 'Admin' },
+    meta: { requiresAuth: true, role: 'Admin' },
   },
   {
     path: '/admin/modificarUsuario',
     name: 'Admin - modificar Usuarios',
     component: () => import('../views/admin/components/modificarUsuario.vue'),
-    meta: { role: 'Admin' },
+    meta: { requiresAuth: true, role: 'Admin' },
   },
 ]
 
@@ -45,20 +47,31 @@ const router = createRouter({
 
 // Guard global
 router.beforeEach(async (to, _from, next) => {
-  // Solo proteger rutas con meta.role
-  if (to.meta.role) {
-    const user = await AuthService.getCurrentUser()
+  const store = useStore();
 
-    if (!user) {
-      return next('/') // si no está logeado, al login
-    }
-
-    if (user.rol_usuario !== to.meta.role) {
-      return next('/asistencia') // si no tiene permiso, al panel empleado
+  // Solo intenta cargar el usuario si la ruta requiere autenticación
+  if (to.meta.requiresAuth && !store.currentUser) {
+    try {
+      await store.fetchUser();
+    } catch (error) {
+      console.error('Error al obtener el usuario:', error);
     }
   }
 
-  next()
-})
+  const isLoggedIn = !!store.currentUser;
+  const userRole = store.currentUser?.rol_usuario;
+
+  if (to.meta.requiresAuth && !isLoggedIn) {
+    return next({ name: 'Login' });
+  }
+  if (to.meta.role && userRole !== to.meta.role) {
+    return next({ name: 'Asistencia' });
+  }
+
+
+  next();
+});
+
+
 
 export default router

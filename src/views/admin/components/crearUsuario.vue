@@ -1,10 +1,11 @@
 <template>
   <BModal
-     v-model:show="showModal"
-  no-header
-  centered
-  size="md"
-  @hide="closeModal"
+    v-model:show="showModal"
+    id="crear-usuario-modal"
+    no-header
+    centered
+    size="md"
+    @hide="closeModal"
   >
     <div class="d-flex justify-content-center align-items-center" style="height: 80px;">
       <Icon icon="streamline-sharp:profile-add-solid" :style="{ fontSize: '60px' }" class="text-primary"/>
