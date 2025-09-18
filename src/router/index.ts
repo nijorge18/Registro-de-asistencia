@@ -14,30 +14,14 @@ const routes = [
     meta: { requiresAuth: true },
 
   },
-  {
+  { 
     path: '/admin',
     name: 'Admin',
     component: () => import('../views/admin/panelAdmin.vue'),
     meta: { requiresAuth: true, role: 'Admin' },
   },
-  {
-    path: '/admin/crearUsuario',
-    name: 'Admin - Gestionar Usuarios',
-    component: () => import('../views/admin/components/crearUsuario.vue'),
-    meta: { requiresAuth: true, role: 'Admin' },
-  },
-  {
-    path: '/reporteAtrasos',
-    name: 'Admin - Reporte de Atrasos',
-    component: () => import('../views/admin/components/reporteAtraso.vue'),
-    meta: { requiresAuth: true, role: 'Admin' },
-  },
-  {
-    path: '/admin/modificarUsuario',
-    name: 'Admin - modificar Usuarios',
-    component: () => import('../views/admin/components/modificarUsuario.vue'),
-    meta: { requiresAuth: true, role: 'Admin' },
-  },
+
+
 ]
 
 const router = createRouter({
