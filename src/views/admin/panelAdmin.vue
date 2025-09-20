@@ -1,61 +1,55 @@
 <template>
-  <div class="auth-box d-flex align-items-center min-vh-100 bg-light">
-    <BContainer class="mt-3" fluid="xxl">
-      <BCard no-body class="rounded-4 shadow p-4">
-        <Logout/>
+  <Logout/>
 
-        <BRow class="justify-content-center mb-4">
-          <h2 class="text-center w-100">Panel de administración</h2>
-        </BRow>
+  <BRow class="justify-content-center mb-4">
+    <h2 class="text-center w-100">Panel de administración</h2>
+  </BRow>
 
-        <BRow class="justify-content-center mb-4 g-2">
-          <BCol cols="4">
-            <BButton variant="success" class="w-100" @click="showCreateUserModal = true">
-              Crear Usuario
-            </BButton>
-          </BCol>
+  <BRow class="justify-content-center mb-4 g-2">
+    <BCol cols="6">
+      <BButton variant="info" class="w-100" @click="toggleUserList">
+        Gestionar Usuarios
+      </BButton>
+    </BCol>
 
-          <BCol cols="4">
-            <BButton variant="info" class="w-100" @click="toggleUserList">
-              Lista de Usuarios
-            </BButton>
-          </BCol>
+    <BCol cols="6">
+      <BButton variant="warning" class="w-100" @click="toggleReports">
+        Reportes
+      </BButton>
+    </BCol>
+  </BRow>
 
-          <BCol cols="4">
-            <BButton variant="warning" class="w-100" @click="toggleReports">
-              Reportes
-            </BButton>
-          </BCol>
-        </BRow>
+  <!-- Lista de Usuarios (desplegable) -->
+  <BCard v-if="showUserList" class="mb-3">
+    <!-- Botón Crear Usuario dentro de la lista -->
+    <div class="mb-3">
+      <BButton variant="success" class="w-100" @click="showCreateUserModal = true">
+        Crear Usuario
+      </BButton>
+    </div>
 
-        <!-- Lista de Usuarios (desplegable) -->
-        <BCard v-if="showUserList" class="mb-3">
-          <BListGroup>
-            <BListGroupItem v-for="user in users" :key="user.id_usuario"
-              class="d-flex justify-content-between align-items-center">
-              <div>{{ user.nombre_usuario }} - {{ user.correo_usuario }} ({{ user.rol_usuario }})</div>
-              <div class="d-flex gap-2">
-                <BButton size="sm" variant="warning" @click="editUser(user)">Modificar</BButton>
-                <BButton size="sm" variant="danger" @click="deleteUser(user)">Eliminar</BButton>
-              </div>
-            </BListGroupItem>
-          </BListGroup>
-        </BCard>
-
-        <!-- Reportes -->
-        <div v-if="showReports">
-          <Reportes />
+    <BListGroup>
+      <BListGroupItem v-for="user in users" :key="user.id_usuario"
+        class="d-flex justify-content-between align-items-center">
+        <div>{{ user.nombre_usuario }} - {{ user.correo_usuario }} ({{ user.rol_usuario }})</div>
+        <div class="d-flex gap-2">
+          <BButton size="sm" variant="warning" @click="editUser(user)">Modificar</BButton>
+          <BButton size="sm" variant="danger" @click="deleteUser(user)">Eliminar</BButton>
         </div>
+      </BListGroupItem>
+    </BListGroup>
+  </BCard>
 
-        <!-- Modales flotantes -->
-        <CrearUsuario :show="showCreateUserModal" @created="refreshUsers" @close="showCreateUserModal = false" />
-
-        <ModificarUsuario :user="selectedUser" :show="showEditUserModal" @updated="refreshUsers"
-          @close="closeEditModal"  />
-
-      </BCard>
-    </BContainer>
+  <!-- Reportes -->
+  <div v-if="showReports">
+    <Reportes />
   </div>
+
+  <!-- Modales flotantes -->
+  <CrearUsuario :show="showCreateUserModal" @created="refreshUsers" @close="showCreateUserModal = false" />
+
+  <ModificarUsuario :user="selectedUser" :show="showEditUserModal" @updated="refreshUsers"
+    @close="closeEditModal"  />
 </template>
 
 <script setup lang="ts">

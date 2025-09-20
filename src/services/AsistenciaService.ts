@@ -123,49 +123,4 @@ export default class AsistenciaService {
       return hora !== null && hora < '17:30:00'
     })
   }
-
-
-  public async getInasistencias(dias: number = 5): Promise<AsistenciaUsuario[]> {
-
-    const { data: usuarios, error: errUsuarios } = await supabase
-      .from('Users')
-      .select('id_usuario, nombre_usuario')
-    if (errUsuarios) throw new Error(errUsuarios.message)
-
-    const hoy = new Date(new Date().toLocaleString('en-GB', { timeZone: 'America/Santiago' }))
-    const fechaInicio = new Date(hoy)
-    fechaInicio.setDate(hoy.getDate() - (dias - 1))
-    const fechaInicioStr = fechaInicio.toISOString().split('T')[0]
-
-    const { data: asistencias, error } = await supabase
-      .from('Asistencia')
-      .select('id_usuario, fecha')
-      .gte('fecha', fechaInicioStr)
-
-    if (error) throw new Error(error.message)
-
-    const asistenciasSet = new Set(asistencias?.map(a => `${a.id_usuario}_${a.fecha}`))
-
-    const inasistencias: AsistenciaUsuario[] = []
-
-    for (const u of usuarios || []) {
-      for (let i = 0; i < dias; i++) {
-        const fecha = new Date(hoy)
-        fecha.setDate(hoy.getDate() - i)
-        const fechaStr = fecha.toISOString().split('T')[0]
-
-        if (!asistenciasSet.has(`${u.id_usuario}_${fechaStr}`)) {
-          inasistencias.push({
-            id_asistencia: 0,
-            id_usuario: u.id_usuario,
-            usuario: { nombre_usuario: u.nombre_usuario },
-            fecha: fechaStr,
-            hora_ingreso: null,
-            hora_salida: null
-          })
-        }
-      }
-    }
-    return inasistencias
-  }
 }

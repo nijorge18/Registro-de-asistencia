@@ -58,7 +58,7 @@ defineExpose({ showModal })
 .b-modal .modal-title {
   font-weight: 600;
   font-size: 1.25rem;
-  color: #e53e3e; /* Rojo suave para alerta */
+  color: #e53e3e; 
 }
 
 .b-modal p {

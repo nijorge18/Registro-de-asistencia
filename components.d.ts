@@ -9,10 +9,15 @@ export {}
 declare module 'vue' {
   export interface GlobalComponents {
     BButton: typeof import('bootstrap-vue-next/components/BButton')['BButton']
+    BButtonGroup: typeof import('bootstrap-vue-next/components/BButton')['BButtonGroup']
     BCard: typeof import('bootstrap-vue-next/components/BCard')['BCard']
+    BCardBody: typeof import('bootstrap-vue-next/components/BCard')['BCardBody']
+    BCardHeader: typeof import('bootstrap-vue-next/components/BCard')['BCardHeader']
     BCol: typeof import('bootstrap-vue-next/components/BContainer')['BCol']
     BCollapse: typeof import('bootstrap-vue-next/components/BCollapse')['BCollapse']
     BContainer: typeof import('bootstrap-vue-next/components/BContainer')['BContainer']
+    BDropdownDivider: typeof import('bootstrap-vue-next/components/BDropdown')['BDropdownDivider']
+    BDropdownItem: typeof import('bootstrap-vue-next/components/BDropdown')['BDropdownItem']
     BForm: typeof import('bootstrap-vue-next/components/BForm')['BForm']
     BFormGroup: typeof import('bootstrap-vue-next/components/BFormGroup')['BFormGroup']
     BFormInput: typeof import('bootstrap-vue-next/components/BFormInput')['BFormInput']
@@ -24,7 +29,10 @@ declare module 'vue' {
     BNavbarBrand: typeof import('bootstrap-vue-next/components/BNavbar')['BNavbarBrand']
     BNavbarNav: typeof import('bootstrap-vue-next/components/BNavbar')['BNavbarNav']
     BNavItem: typeof import('bootstrap-vue-next/components/BNav')['BNavItem']
+    BNavItemDropdown: typeof import('bootstrap-vue-next/components/BNav')['BNavItemDropdown']
+    BPagination: typeof import('bootstrap-vue-next/components/BPagination')['BPagination']
     BRow: typeof import('bootstrap-vue-next/components/BContainer')['BRow']
+    BTable: typeof import('bootstrap-vue-next/components/BTable')['BTable']
     RouterLink: typeof import('vue-router')['RouterLink']
     RouterView: typeof import('vue-router')['RouterView']
   }
