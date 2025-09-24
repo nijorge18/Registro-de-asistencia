@@ -1,74 +1,67 @@
-import { supabase } from '../../utils/supabaseClient'
+import { supabase } from '../../utils/supabaseClient';
 import { UserService } from './UserService';
 import { useStore } from '../store/storeUsers';
 
-
 export class AuthService {
-
+  // Crear usuario: solo auth, sin rol
   static async createAuthUser(
     email: string,
     password: string,
-    metadata: { nombre: string; rol: string } = { nombre: '', rol: 'Empleado' }
+    metadata: { nombre: string; rol: string }
   ) {
+    // Crear usuario en Supabase Auth
     const { data, error } = await supabase.auth.admin.createUser({
       email,
       password,
-      email_confirm: true,
-      role: metadata.rol,
-    })
+      email_confirm: true // confirmación automática
+    });
 
-    if (error) throw new Error(`Error creando usuario auth: ${error.message}`)
+    if (error) throw new Error(`Error creando usuario auth: ${error.message}`);
+    if (!data.user) throw new Error('No se pudo crear el usuario');
 
+    // Crear registro en tabla Users con rol
     const user = await UserService.crearUsuario(
       data.user.id,
       email,
-      metadata.nombre
-    )
+      metadata.nombre,
+      metadata.rol // rol solo en UserService
+    );
 
     return {
       authUser: data.user,
-      user: user
-    }
+      user
+    };
   }
 
   static async deleteAuthUser(userId: string) {
-    const { error } = await supabase.auth.admin.deleteUser(userId)
-    if (error) throw new Error(`Error eliminando usuario auth: ${error.message}`)
+    const { error } = await supabase.auth.admin.deleteUser(userId);
+    if (error) throw new Error(`Error eliminando usuario auth: ${error.message}`);
   }
 
-
-
   static async getCurrentUser() {
-    const { data, error } = await supabase.auth.getUser()
-    if (error || !data.user) return null
+    const { data, error } = await supabase.auth.getUser();
+    if (error || !data.user) return null;
 
     const { data: userData, error: userError } = await supabase
       .from('Users')
       .select('id_usuario, nombre_usuario, rol_usuario')
       .eq('id_usuario', data.user.id)
-      .single()
+      .single();
 
-    if (userError) return null
-
-    return userData
+    if (userError) return null;
+    return userData;
   }
 
-
-    static async signOut() {
-    const { error } = await supabase.auth.signOut()
-    if (error) throw new Error(`Error cerrando sesión: ${error.message}`)
-    return true
+  static async signOut() {
+    const { error } = await supabase.auth.signOut();
+    if (error) throw new Error(`Error cerrando sesión: ${error.message}`);
+    return true;
   }
 
   static async initUserSession() {
-  const store = useStore();
-  const userData = await AuthService.getCurrentUser();
-  if (userData) {
-    store.currentUser = userData;
-  } else {
-    store.logout();
+    const store = useStore();
+    const userData = await AuthService.getCurrentUser();
+    if (userData) store.currentUser = userData;
+    else store.logout();
   }
-}
-
-
 }

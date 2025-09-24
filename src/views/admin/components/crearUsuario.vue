@@ -2,7 +2,8 @@
   <BModal
     v-model:show="showModal"
     id="crear-usuario-modal"
-    no-header
+    :no-header="true"
+    :no-footer="true"
     centered
     size="md"
     @hide="closeModal"
@@ -58,12 +59,13 @@
 <script setup lang="ts">
 import { ref, defineEmits, defineProps, watch } from 'vue'
 import { AuthService } from '../../../services/AuthService'
+import { useToast } from '../../../composables/useToast'
 
 const emit = defineEmits<{
   (e: 'created'): void
   (e: 'close'): void
 }>()
-
+  
 const props = defineProps<{ show: boolean }>()
 
 const showModal = ref(false)

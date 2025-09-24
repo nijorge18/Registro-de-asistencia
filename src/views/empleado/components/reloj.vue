@@ -13,11 +13,10 @@ const horaActual = ref<string>('')
 
 const actualizarHora = () => {
   const ahora = new Date()
-  horaActual.value = ahora.toLocaleTimeString('es-CL', {
-    hour: '2-digit',
-    minute: '2-digit',
-    second: '2-digit',
-  })
+  const horas = String(ahora.getHours()).padStart(2, '0')
+  const minutos = String(ahora.getMinutes()).padStart(2, '0')
+  const segundos = String(ahora.getSeconds()).padStart(2, '0')
+  horaActual.value = `${horas}:${minutos}:${segundos}`
 }
 
 let intervalo: ReturnType<typeof setInterval>
@@ -37,34 +36,36 @@ onUnmounted(() => {
   display: flex;
   justify-content: center;
   align-items: center;
-  height: 100%;
-  padding: 2rem;
-  background-color: #000;
-  border-radius: 16px;
-  box-shadow: 0 0 20px #00ff00;
-  max-width: 300px;
+  height: auto;
+  padding: 1.5rem;
+  background: linear-gradient(145deg, #0d1117, #161b22);
+  border-radius: 20px;
+  box-shadow: 0 4px 15px rgba(0,0,0,0.6);
+  max-width: 350px;
   margin: auto;
 }
 
 .reloj-display {
-  background-color: #000;
-  padding: 1.5rem 2rem;
-  border-radius: 12px;
-  border: 2px solid #00ff00;
-  box-shadow: inset 0 0 10px #00ff00;
+  background: #0a0f14;
+  padding: 1.5rem 2.5rem;
+  border-radius: 16px;
+  border: 2px solid #00ff9d;
+  box-shadow: inset 0 0 20px #00ff9d, 0 0 10px #00ff9d;
 }
 
 .hora {
   font-family: 'Courier New', monospace;
-  font-size: 2.5rem;
-  color: #00ff00;
-  letter-spacing: 2px;
-  text-shadow: 0 0 5px #00ff00;
-  animation: parpadeo 1s infinite;
+  font-size: 2.8rem;
+  font-weight: bold;
+  color: #00ff9d;
+  letter-spacing: 3px;
+  text-shadow: 0 0 10px #00ff9d, 0 0 20px #00ff9d;
+  animation: brillo 1.5s infinite alternate;
 }
 
-@keyframes parpadeo {
-  0%, 100% { opacity: 1; }
-  50% { opacity: 0.7; }
+@keyframes brillo {
+  from { text-shadow: 0 0 5px #00ff9d, 0 0 10px #00ff9d; }
+  to { text-shadow: 0 0 15px #00ff9d, 0 0 30px #00ff9d; }
 }
 </style>
+

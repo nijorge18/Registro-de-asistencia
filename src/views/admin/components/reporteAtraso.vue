@@ -22,7 +22,7 @@
     </b-list-group>
 
     <!-- Modal con detalles -->
-    <b-modal v-model="showModal" title="Detalle de asistencias" size="lg">
+    <b-modal v-model="showModal" title="Detalles" size="lg">
       <b-list-group>
         <b-list-group-item
           v-for="item in usuarioSeleccionado?.detalles || []"

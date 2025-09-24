@@ -4,7 +4,7 @@
 
 <script setup>
 import { onMounted } from 'vue'
-import { useStore } from './store/storeUsers' // ajusta la ruta si es necesario
+import { useStore } from './store/storeUsers' 
 
 onMounted(async () => {
   await AuthService.initUserSession();

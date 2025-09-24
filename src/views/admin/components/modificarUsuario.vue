@@ -1,8 +1,8 @@
 <template>
   <BModal
     v-model="showModal"
-    hide-header
-    hide-footer
+    :no-header="true"
+    :no-footer="true"
     centered
     size="md"
     @hidden="onHidden"

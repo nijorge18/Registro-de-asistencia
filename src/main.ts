@@ -11,7 +11,7 @@ import 'bootstrap/dist/css/bootstrap.css'
 import 'bootstrap-vue-next/dist/bootstrap-vue-next.css'
 
 // ✅ Tus estilos personalizados
-import './style.css'
+
 
 // 🔧 Crea la app y registra los plugins
 const app = createApp(App)
