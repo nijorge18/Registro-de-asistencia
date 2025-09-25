@@ -1,9 +1,8 @@
 <template>
   <div class="admin-container">
-    <!-- Toast Component -->
     <Toast ref="toastRef" />
     
-    <!-- Sidebar -->
+
     <aside class="sidebar">
       <div class="sidebar-header">
         <h3 class="logo">Admin</h3>
@@ -17,15 +16,14 @@
       </nav>
     </aside>
 
-    <!-- Main content -->
     <div class="main-content">
-      <!-- Topbar -->
+
       <header class="topbar">
         <div class="welcome"></div>
         <Logout />
       </header>
 
-      <!-- Dashboard Cards -->
+
       <div class="dashboard">
         <h2 class="title">Administración</h2>
 
@@ -41,7 +39,6 @@
           </div>
         </div>
 
-        <!-- Lista de usuarios -->
         <BCard v-if="showUserList" class="mt-4">
           <BButton variant="success" class="w-100 mb-3" @click="showCreateUserModal = true">
             ➕ Crear Usuario
@@ -59,18 +56,15 @@
           </BListGroup>
         </BCard>
 
-        <!-- Reportes -->
         <div v-if="showReports" class="mt-4">
           <Reportes />
         </div>
       </div>
     </div>
 
-    <!-- Modales -->
+    
     <CrearUsuario :show="showCreateUserModal" @created="handleUserCreated" @close="showCreateUserModal = false" />
     <ModificarUsuario :user="selectedUser" :show="showEditUserModal" @updated="handleUserUpdated" @close="closeEditModal" />
-    
-    <!-- Modal de Eliminación -->
     <EliminarUsuario 
       :user="userToDelete" 
       :show="showDeleteModal" 
@@ -85,7 +79,7 @@ import { ref, onMounted } from 'vue'
 import { UserService } from '../../services/UserService'
 import CrearUsuario from './components/crearUsuario.vue'
 import ModificarUsuario from './components/modificarUsuario.vue'
-import EliminarUsuario from './components/eliminarUsuario.vue' // Importa el nuevo componente
+import EliminarUsuario from './components/eliminarUsuario.vue' 
 import Reportes from './components/reporteAtraso.vue'
 import type { Database } from '../../entities/supabase'
 import Logout from '../auth/logout.vue'
@@ -98,13 +92,13 @@ type Users = Database['public']['Tables']['Users']['Row']
 const { toastRef, success, error} = useToast()
 const users = ref<Users[]>([])
 const selectedUser = ref<Users | null>(null)
-const userToDelete = ref<Users | null>(null) // Nuevo ref para el usuario a eliminar
+const userToDelete = ref<Users | null>(null) 
 const userService = new UserService()
 const router = useRouter()
 
 const showCreateUserModal = ref(false)
 const showEditUserModal = ref(false)
-const showDeleteModal = ref(false) // Nuevo estado para el modal de eliminación
+const showDeleteModal = ref(false) 
 const showUserList = ref(false)
 const showReports = ref(false)
 
@@ -127,13 +121,12 @@ const editUser = (user: Users) => {
   showEditUserModal.value = true
 }
 
-// Abre el modal de eliminación en lugar de eliminar directamente
+
 const openDeleteModal = (user: Users) => {
   userToDelete.value = user
   showDeleteModal.value = true
 }
 
-// Maneja la eliminación cuando se confirma en el modal
 const handleUserDeleted = async () => {
   try {
     await refreshUsers()
@@ -183,16 +176,12 @@ const closeEditModal = () => {
 .admin-container {
   display: flex;
   height: 100vh;
-  /* ocupa todo el alto de la pantalla */
   width: 100vw;
-  /* ocupa todo el ancho */
   background-color: #f4f6f9;
   font-family: 'Inter', 'Segoe UI', sans-serif;
   overflow: hidden;
-  /* evita scroll raro por padding */
 }
 
-/* Sidebar */
 .sidebar {
   width: 220px;
   background: #1c2430;
@@ -262,13 +251,12 @@ const closeEditModal = () => {
   color: #2c3e50;
 }
 
-/* Dashboard */
+
 .dashboard {
   flex: 1;
-  /* ocupa todo el espacio debajo del topbar */
   padding: 2rem;
   overflow-y: auto;
-  /* permite scroll solo en el contenido */
+
 }
 
 .title {
@@ -278,7 +266,7 @@ const closeEditModal = () => {
   color: #34495e;
 }
 
-/* Cards */
+
 .cards-grid {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));

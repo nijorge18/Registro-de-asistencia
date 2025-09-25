@@ -36,7 +36,7 @@ const emit = defineEmits<{
 const showModalValue = ref(false)
 const userService = new UserService()
 
-// Sincronizar el prop show con el estado interno
+
 watch(() => props.show, (newVal) => {
   showModalValue.value = newVal
 })
@@ -48,12 +48,11 @@ watch(showModalValue, (newVal) => {
 })
 
 const confirmDelete = async () => {
+  
   if (!props.user) return
   try {
-    // 1. Eliminar primero de la tabla Users
+    // acá eliminamos los usuarios de ambas tablas para que no quede ningun residuo ni en la autnetnicacion ni en la tabla usuarios
     await userService.delete(props.user.id_usuario)
-    
-    // 2. Luego eliminar de Auth
     await AuthService.deleteAuthUser(props.user.id_usuario)
     
     emit('deleted')

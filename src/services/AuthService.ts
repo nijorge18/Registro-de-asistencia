@@ -3,28 +3,25 @@ import { UserService } from './UserService';
 import { useStore } from '../store/storeUsers';
 
 export class AuthService {
-  // Crear usuario: solo auth, sin rol
   static async createAuthUser(
     email: string,
     password: string,
     metadata: { nombre: string; rol: string }
   ) {
-    // Crear usuario en Supabase Auth
     const { data, error } = await supabase.auth.admin.createUser({
       email,
       password,
-      email_confirm: true // confirmación automática
+      email_confirm: true 
     });
 
     if (error) throw new Error(`Error creando usuario auth: ${error.message}`);
     if (!data.user) throw new Error('No se pudo crear el usuario');
 
-    // Crear registro en tabla Users con rol
     const user = await UserService.crearUsuario(
       data.user.id,
       email,
       metadata.nombre,
-      metadata.rol // rol solo en UserService
+      metadata.rol 
     );
 
     return {

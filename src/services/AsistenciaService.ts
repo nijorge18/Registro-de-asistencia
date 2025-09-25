@@ -5,6 +5,7 @@ import type AsistenciaUsuario from '../entities/AsistenciaUsuario'
 type Asistencia = Database['public']['Tables']['Asistencia']['Row']
 type AsistenciaInsert = Database['public']['Tables']['Asistencia']['Insert']
 type AsistenciaUpdate = Database['public']['Tables']['Asistencia']['Update']
+
 export default class AsistenciaService {
 
   public async getAll(): Promise<AsistenciaUsuario[]> {
@@ -83,17 +84,22 @@ export default class AsistenciaService {
     }
   }
 
-  public async marcarSalida(id_asistencia: number) {
+  public async marcarSalida(id_asistencia: number): Promise<AsistenciaUsuario> {
     const horaSalida = new Date().toISOString().split('T')[1].split('.')[0]
     const actualizarSalida: AsistenciaUpdate = { hora_salida: horaSalida }
 
-    const { error } = await supabase
+    const { data, error } = await supabase
       .from('Asistencia')
       .update(actualizarSalida)
       .eq('id_asistencia', id_asistencia)
+      .select('*, usuario:Users(*)')
+      .single()
 
-    if (error) throw error
-    return true
+    if (error || !data) {
+      throw new Error('Error al actualizar la hora de salida')
+    }
+
+    return data
   }
 
 

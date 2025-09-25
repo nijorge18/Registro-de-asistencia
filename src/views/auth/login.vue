@@ -1,15 +1,11 @@
 <template>
   <div class="login-container d-flex">
-    <!-- Toast Component -->
     <Toast ref="toastRef" />
-    
-    <!-- Sección izquierda -->
+  
     <div class="login-left text-black d-flex flex-column justify-content-center p-5">
-      <h1 class="fw-bold mb-3">Welcome Back</h1>
+      <h1 class="fw-bold mb-3">Asistencias Kevin!!</h1>
       <p class="mb-4">
-        Es un hecho establecido que un lector se distraerá con el contenido legible
-        de una página al mirar su diseño.
-      </p>
+        Que mejor asistencia que las de Kevin</p>
       <div class="social-icons">
         <i class="bi bi-facebook me-3"></i>
         <i class="bi bi-twitter me-3"></i>
@@ -18,7 +14,7 @@
       </div>
     </div>
 
-    <!-- Sección derecha -->
+
     <div class="login-right d-flex justify-content-center align-items-center">
       <div class="login-form p-5 bg-dark bg-opacity-75 rounded shadow-lg">
         <div class="text-center mb-4 text-white">
@@ -67,13 +63,13 @@ import { ref } from 'vue'
 import { supabase } from '../../../utils/supabaseClient'
 import { useRouter } from 'vue-router'
 import Toast from '../components/toast.vue'
-import { useToast } from '../../composables/useToast' // Asegúrate de esta ruta
+import { useToast } from '../../composables/useToast' 
 
 const router = useRouter()
 const loading = ref(false)
 const email = ref('')
 const password = ref('')
-const { toastRef, success, error } = useToast() // ✅ Correcto
+const { toastRef, success, error } = useToast()
 
 const handleLogin = async () => {
   try {
@@ -87,7 +83,6 @@ const handleLogin = async () => {
 
     success('Inicio de sesión exitoso')
     
-    // Pequeño delay para que se vea el toast antes de redirigir
     setTimeout(() => {
       router.push('/asistencia')
     }, 1000)
@@ -111,7 +106,7 @@ html, body {
   min-height: 100vh;
   width: 100%;
   display: flex;
-  background: url('https://negotiantis.com/wp-content/uploads/2021/07/rol-de-la-asistente-a-direccion.jpg')
+  background: url('https://www.mancity.com/meta/media/1gupr3h0/playmaker_award_kdb_wide.jpg?width=1620')
     no-repeat center center;
   background-size: cover;
   color: #ffffff;

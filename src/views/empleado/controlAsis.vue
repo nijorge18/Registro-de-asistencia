@@ -1,6 +1,5 @@
 <template>
   <div class="app-container">
-    <!-- Toast Component -->
     <Toast ref="toastRef" />
     
     <BNavbar type="dark" variant="primary" fixed="top" container="fluid" class="m-0 p-2">
@@ -19,7 +18,6 @@
       </div>
     </BNavbar>
 
-    <!-- Contenido centrado -->
     <div class="content d-flex flex-column align-items-center m-5">
       <reloj />
 
@@ -63,7 +61,7 @@ import Toast from '../components/toast.vue';
 import { useToast } from '../../composables/useToast';
 
 const store = useStore();
-const { toastRef, success, error, warning, info } = useToast(); 
+const { toastRef, success, error, warning, info } = useToast();
 const currentUser = ref<{ id_usuario: string; nombre_usuario: string; rol_usuario: string } | null>(null);
 const asistenciaService = new AsistenciaService();
 const botonAsistencia = ref(true);
@@ -71,10 +69,7 @@ const botonAsistencia = ref(true);
 const entradaMarcada = ref<string | null>(null);
 const salidaMarcada = ref<string | null>(null);
 
-onMounted(async () => {
-  currentUser.value = await AuthService.getCurrentUser();
-  await store.fetchUser();
-
+const updateAsistenciaStatus = async () => {
   if (!currentUser.value) return;
 
   const fechaHoy = new Date().toISOString().split('T')[0];
@@ -84,36 +79,40 @@ onMounted(async () => {
     entradaMarcada.value = asistenciaHoy.hora_ingreso || null;
     salidaMarcada.value = asistenciaHoy.hora_salida || null;
 
-    if (!entradaMarcada.value) {
-      botonAsistencia.value = true;
-    } else if (entradaMarcada.value && !salidaMarcada.value) {
+    if (entradaMarcada.value && !salidaMarcada.value) {
       botonAsistencia.value = false;
-    } else if (entradaMarcada.value && salidaMarcada.value) {
+    } else {
       botonAsistencia.value = true;
     }
   } else {
     botonAsistencia.value = true;
   }
+};
+
+onMounted(async () => {
+  currentUser.value = await AuthService.getCurrentUser();
+  await store.fetchUser();
+  await updateAsistenciaStatus();
 });
 
 const handleAsistenciaSalida = async () => {
   if (!currentUser.value) return;
-
-  const fechaHoy = new Date().toISOString().split('T')[0];
 
   try {
     if (botonAsistencia.value) {
       const asistencia = await asistenciaService.marcarAsistencia(currentUser.value.id_usuario);
       entradaMarcada.value = asistencia.hora_ingreso;
       botonAsistencia.value = false;
-      success('Entrada marcada correctamente'); 
+      success('Entrada marcada correctamente');
     } else {
+      const fechaHoy = new Date().toISOString().split('T')[0];
       const asistencia = await asistenciaService.getAsisByUsuario(currentUser.value.id_usuario, fechaHoy);
+
       if (!asistencia) {
-        warning('No se encontró asistencia para hoy'); 
+        warning('No se encontró asistencia para hoy');
         return;
       }
-      
+
       if (asistencia.hora_salida) {
         botonAsistencia.value = true;
         info('Ya has marcado tu salida para hoy');
@@ -123,11 +122,11 @@ const handleAsistenciaSalida = async () => {
       await asistenciaService.marcarSalida(asistencia.id_asistencia);
       salidaMarcada.value = new Date().toISOString().split('T')[1].split('.')[0];
       botonAsistencia.value = true;
-      success('Salida marcada correctamente'); 
+      success('Salida marcada correctamente');
     }
   } catch (err: any) {
     console.error(err);
-    error(err.message || 'Error al registrar asistencia/salida'); 
+    error(err.message || 'Error al registrar asistencia/salida');
   }
 };
 </script>

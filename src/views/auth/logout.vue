@@ -11,7 +11,7 @@ const router = useRouter()
 const logout = async () => {
   try {
     await AuthService.signOut()
-    router.push('/') // te devuelve al login
+    router.push('/') 
   } catch (err) {
     console.error(err)
     alert('No se pudo cerrar sesión')

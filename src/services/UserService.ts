@@ -15,7 +15,7 @@ export class UserService {
     userId: string,
     email: string,
     nombre: string,
-    rol: string = 'Empleado' // rol solo en Users
+    rol: string = 'Empleado' 
   ) {
     const { data, error } = await supabase
       .from('Users')

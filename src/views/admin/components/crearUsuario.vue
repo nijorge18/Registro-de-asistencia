@@ -59,7 +59,6 @@
 <script setup lang="ts">
 import { ref, defineEmits, defineProps, watch } from 'vue'
 import { AuthService } from '../../../services/AuthService'
-import { useToast } from '../../../composables/useToast'
 
 const emit = defineEmits<{
   (e: 'created'): void

@@ -33,7 +33,6 @@ const router = createRouter({
 router.beforeEach(async (to, _from, next) => {
   const store = useStore();
 
-  // Solo intenta cargar el usuario si la ruta requiere autenticación
   if (to.meta.requiresAuth && !store.currentUser) {
     try {
       await store.fetchUser();
