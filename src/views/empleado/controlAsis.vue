@@ -1,5 +1,6 @@
 <template>
   <div class="app-container">
+    <BContainer fluid class="container-principal p-0 m-0 ">
     <Toast ref="toastRef" />
     
     <BNavbar type="dark" variant="primary" fixed="top" container="fluid" class="m-0 p-2">
@@ -44,10 +45,12 @@
 
       <BButton class="mt-5 mb-5" :variant="botonAsistencia ? 'success' : 'danger'" @click="handleAsistenciaSalida"
         style="width: 200px; height: 60px; font-size: 1.2rem;">
-        {{ botonAsistencia ? 'Marcar Asistencia' : 'Marcar Salida' }}
+        {{ botonAsistencia ? 'Marcar' : 'Marcar Salida' }}
       </BButton>
     </div>
+    </BContainer>
   </div>
+  
 </template>
 
 <script setup lang="ts">
@@ -201,6 +204,13 @@ html, body, #app {
   font-weight: bold;
   color: #ffc107;
   transition: color 0.3s ease;
+}
+.container-principal{
+  background: url('https://tecnyfarma.com/wp-content/uploads/2023/09/DSC1737-scaled.jpg')
+    no-repeat center center;
+  background-size: cover;
+  min-height: 100vh;
+  width: 100%;
 }
 
 .status-value.marcada {

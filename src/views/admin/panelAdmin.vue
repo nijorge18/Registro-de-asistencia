@@ -176,6 +176,7 @@ const closeEditModal = () => {
 .admin-container {
   display: flex;
   height: 100vh;
+  background-image: url("https://static.vecteezy.com/system/resources/previews/009/352/697/non_2x/administrator-illustration-concept-on-white-background-vector.jpg");
   width: 100vw;
   background-color: #f4f6f9;
   font-family: 'Inter', 'Segoe UI', sans-serif;
